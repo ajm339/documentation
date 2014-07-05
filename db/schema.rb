@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140705075955) do
+ActiveRecord::Schema.define(version: 20140705080024) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -46,6 +46,35 @@ ActiveRecord::Schema.define(version: 20140705075955) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
 
+  create_table "file_instances", force: true do |t|
+    t.integer  "file_type"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "file_methods", force: true do |t|
+    t.integer  "created_by"
+    t.string   "name"
+    t.text     "description"
+    t.text     "input"
+    t.text     "output"
+    t.integer  "file_instance_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "file_methods", ["file_instance_id"], name: "index_file_methods_on_file_instance_id"
+
+  create_table "file_updates", force: true do |t|
+    t.integer  "documentation_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -60,6 +89,7 @@ ActiveRecord::Schema.define(version: 20140705075955) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "username"
+    t.string   "first_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
